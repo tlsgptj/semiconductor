@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("semi.EquipmentSimulator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a7b5013177749c836a1df99bc854e1d33980e026")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ece230eaf84bc3f3871429caaacc893c46414478")]
 [assembly: System.Reflection.AssemblyProductAttribute("semi.EquipmentSimulator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("semi.EquipmentSimulator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

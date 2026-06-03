@@ -69,6 +69,24 @@ public class EquipmentServer
                             cancellationToken);
 
                         Console.WriteLine($"[Equipment] TX: {response}");
+
+                        if (request.SType == HsmsSType.DataMessage &&
+                            request.Stream == 1 &&
+                            request.Function == 1)
+                        {
+                            await Task.Delay(1000, cancellationToken);
+
+                            HsmsMessage eventReport = CreateS6F11EventReport(
+                                sessionId: request.SessionId,
+                                systemBytes: 1001);
+
+                            await HsmsMessageWriter.WriteAsync(
+                                stream,
+                                eventReport,
+                                cancellationToken);
+
+                            Console.WriteLine($"[Equipment] TX EVENT: {eventReport}");
+                        }
                     }
                 }
             }
@@ -77,6 +95,37 @@ public class EquipmentServer
                 Console.WriteLine($"[Equipment] Error: {ex.Message}");
             }
         }
+
+    }
+
+    private static HsmsMessage CreateS6F11EventReport(
+    ushort sessionId,
+    uint systemBytes)
+    {
+        var body = SecsItem.L(
+            SecsItem.U4(1),      // DATAID
+            SecsItem.U4(100),    // CEID
+            SecsItem.L(
+                SecsItem.L(
+                    SecsItem.U4(200), // RPTID
+                    SecsItem.L(
+                        SecsItem.A("RUN"),
+                        SecsItem.U4(25)
+                    )
+                )
+            )
+        );
+
+        return new HsmsMessage
+        {
+            SessionId = sessionId,
+            Stream = 6,
+            Function = 11,
+            PType = 0,
+            SType = HsmsSType.DataMessage,
+            SystemBytes = systemBytes,
+            Body = SecsEncoder.Encode(body)
+        };
     }
 
     // 간단한 메시지 핸들러. 실제 장비에서는 더 복잡한 로직이 들어갈 수 있음
@@ -117,6 +166,15 @@ public class EquipmentServer
                 SystemBytes = request.SystemBytes,
                 Body = SecsEncoder.Encode(s1f2Body)
             };
+        }
+
+        // 3. S6F12 Event Report Acknowledge 수신
+        if (request.SType == HsmsSType.DataMessage &&
+            request.Stream == 6 &&
+            request.Function == 12)
+        {
+            Console.WriteLine("[Equipment] S6F12 received. Event report acknowledged by Host.");
+            return null;
         }
 
         Console.WriteLine($"[Equipment] Unsupported message. SType={request.SType}, S={request.Stream}, F={request.Function}");

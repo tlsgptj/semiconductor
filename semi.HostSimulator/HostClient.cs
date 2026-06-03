@@ -1,5 +1,6 @@
 using System.Net.Sockets;
 using semi.Core.Hsms;
+using semi.Core.Secs;
 
 namespace semi.HostSimulator;
 
@@ -11,7 +12,6 @@ public class HostClient
     private readonly ushort _sessionId;
     private readonly SystemByteGenerator _systemByteGenerator = new();
 
-    // IP, 포트, 세션 ID를 받아서 초기화
     public HostClient(string ip, int port, ushort sessionId)
     {
         _ip = ip;
@@ -19,7 +19,6 @@ public class HostClient
         _sessionId = sessionId;
     }
 
-    // TCP 클라이언트를 생성하고, 서버에 연결한 후, HSMS 메시지를 주고받는 메인 로직
     public async Task RunAsync(CancellationToken cancellationToken = default)
     {
         using var client = new TcpClient();
@@ -60,10 +59,60 @@ public class HostClient
 
         await SendAndReceiveAsync(stream, s1f1, cancellationToken);
 
+        // 3. Equipment가 보내는 S6F11 이벤트 대기
+        Console.WriteLine("[Host] Waiting for equipment event...");
+
+        HsmsMessage? eventMessage = await HsmsMessageReader.ReadAsync(
+            stream,
+            cancellationToken);
+
+        if (eventMessage != null)
+        {
+            Console.WriteLine($"[Host] RX EVENT: {eventMessage}");
+
+            if (eventMessage.SType == HsmsSType.DataMessage &&
+                eventMessage.Body.Length > 0)
+            {
+                try
+                {
+                    SecsItem item = SecsDecoder.Decode(eventMessage.Body);
+
+                    Console.WriteLine("[Host] Decoded Event Body:");
+                    Console.WriteLine(item.ToSmlString());
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[Host] Event body decode failed: {ex.Message}");
+                }
+            }
+
+            // S6F11을 받았으면 S6F12 ACK 응답
+            if (eventMessage.Stream == 6 &&
+                eventMessage.Function == 11)
+            {
+                var s6f12 = new HsmsMessage
+                {
+                    SessionId = eventMessage.SessionId,
+                    Stream = 6,
+                    Function = 12,
+                    PType = 0,
+                    SType = HsmsSType.DataMessage,
+                    SystemBytes = eventMessage.SystemBytes,
+                    Body = Array.Empty<byte>()
+                };
+
+                await HsmsMessageWriter.WriteAsync(
+                    stream,
+                    s6f12,
+                    cancellationToken);
+
+                Console.WriteLine($"[Host] TX ACK: {s6f12}");
+            }
+        }
+
         Console.WriteLine("[Host] Done.");
     }
 
-    // 메시지를 보내고, 응답을 기다리는 공통 로직
     private static async Task SendAndReceiveAsync(
         NetworkStream stream,
         HsmsMessage request,
@@ -87,5 +136,21 @@ public class HostClient
         }
 
         Console.WriteLine($"[Host] RX: {response}");
+
+        if (response.SType == HsmsSType.DataMessage &&
+            response.Body.Length > 0)
+        {
+            try
+            {
+                SecsItem item = SecsDecoder.Decode(response.Body);
+
+                Console.WriteLine("[Host] Decoded Body:");
+                Console.WriteLine(item.ToSmlString());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Host] Body decode failed: {ex.Message}");
+            }
+        }
     }
 }

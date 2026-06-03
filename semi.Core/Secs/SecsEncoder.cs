@@ -1,8 +1,8 @@
+using System.Buffers.Binary;
 using System.Text;
 
 namespace semi.Core.Secs;
 
-// Encoding SECS-II items into byte arrays according to the SECS-II specification
 public static class SecsEncoder
 {
     public static byte[] Encode(SecsItem item)
@@ -11,6 +11,7 @@ public static class SecsEncoder
         {
             SecsFormat.List => EncodeList(item),
             SecsFormat.Ascii => EncodeAscii(item),
+            SecsFormat.U4 => EncodeU4(item),
             _ => throw new NotSupportedException($"Format {item.Format} is not supported yet.")
         };
     }
@@ -44,6 +45,27 @@ public static class SecsEncoder
 
         byte[] data = Encoding.ASCII.GetBytes(item.AsciiValue);
         byte[] header = CreateHeader(SecsFormat.Ascii, data.Length);
+
+        return header.Concat(data).ToArray();
+    }
+
+    private static byte[] EncodeU4(SecsItem item)
+    {
+        if (item.U4Values == null)
+        {
+            throw new InvalidOperationException("U4 item must have value.");
+        }
+
+        byte[] data = new byte[item.U4Values.Length * 4];
+
+        for (int i = 0; i < item.U4Values.Length; i++)
+        {
+            BinaryPrimitives.WriteUInt32BigEndian(
+                data.AsSpan(i * 4, 4),
+                item.U4Values[i]);
+        }
+
+        byte[] header = CreateHeader(SecsFormat.U4, data.Length);
 
         return header.Concat(data).ToArray();
     }
