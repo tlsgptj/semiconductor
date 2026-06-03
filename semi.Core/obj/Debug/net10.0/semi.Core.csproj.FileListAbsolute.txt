@@ -1,0 +1,11 @@
+C:\Users\USER\source\repos\semiconductor\semi.Core\bin\Debug\net10.0\semi.Core.deps.json
+C:\Users\USER\source\repos\semiconductor\semi.Core\bin\Debug\net10.0\semi.Core.dll
+C:\Users\USER\source\repos\semiconductor\semi.Core\bin\Debug\net10.0\semi.Core.pdb
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.AssemblyInfoInputs.cache
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.AssemblyInfo.cs
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.dll
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\refint\semi.Core.dll
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.pdb
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\ref\semi.Core.dll

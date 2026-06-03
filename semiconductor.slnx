@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="semi.Core/semi.Core.csproj" />
+  <Project Path="semi.EquipmentSimulator/semi.EquipmentSimulator.csproj" />
+  <Project Path="semi.HostSimulator/semi.HostSimulator.csproj" />
+  <Project Path="semiconductor/semiconductor.csproj" Id="c1ca3987-36bc-443b-a42b-e436bbdbb99a" />
+</Solution>

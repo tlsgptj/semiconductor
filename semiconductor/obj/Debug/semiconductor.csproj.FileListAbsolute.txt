@@ -1,0 +1,7 @@
+C:\Users\USER\source\repos\semiconductor\semiconductor\bin\Debug\semiconductor.exe.config
+C:\Users\USER\source\repos\semiconductor\semiconductor\bin\Debug\semiconductor.exe
+C:\Users\USER\source\repos\semiconductor\semiconductor\bin\Debug\semiconductor.pdb
+C:\Users\USER\source\repos\semiconductor\semiconductor\obj\Debug\semiconductor.csproj.AssemblyReference.cache
+C:\Users\USER\source\repos\semiconductor\semiconductor\obj\Debug\semiconductor.csproj.CoreCompileInputs.cache
+C:\Users\USER\source\repos\semiconductor\semiconductor\obj\Debug\semiconductor.exe
+C:\Users\USER\source\repos\semiconductor\semiconductor\obj\Debug\semiconductor.pdb
