@@ -20,9 +20,13 @@ public class HsmsMessage
 
     public override string ToString()
     {
+        string bodyHex = Body.Length > 0
+            ? Convert.ToHexString(Body)
+            : "-";
+
         if (IsDataMessage)
         {
-            return $"DATA S{Stream}F{Function}, SessionId={SessionId}, SystemBytes={SystemBytes}, Body={Body.Length} bytes";
+            return $"DATA S{Stream}F{Function}, SessionId={SessionId}, SystemBytes={SystemBytes}, Body={Body.Length} bytes, Hex={bodyHex}";
         }
 
         return $"CONTROL {SType}, SessionId={SessionId}, SystemBytes={SystemBytes}";

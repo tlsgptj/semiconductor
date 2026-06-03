@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using semi.Core.Hsms;
+using semi.Core.Secs;
 
 namespace semi.EquipmentSimulator;
 
@@ -101,6 +102,11 @@ public class EquipmentServer
             request.Stream == 1 &&
             request.Function == 1)
         {
+            var s1f2Body = SecsItem.L(
+                SecsItem.A("SEMI_EQP"),
+                SecsItem.A("1.0.0")
+            );
+
             return new HsmsMessage
             {
                 SessionId = request.SessionId,
@@ -109,11 +115,11 @@ public class EquipmentServer
                 PType = 0,
                 SType = HsmsSType.DataMessage,
                 SystemBytes = request.SystemBytes,
-                Body = Array.Empty<byte>()
+                Body = SecsEncoder.Encode(s1f2Body)
             };
         }
 
-        Console.WriteLine("[Equipment] Unsupported message.");
+        Console.WriteLine($"[Equipment] Unsupported message. SType={request.SType}, S={request.Stream}, F={request.Function}");
 
         return null;
     }

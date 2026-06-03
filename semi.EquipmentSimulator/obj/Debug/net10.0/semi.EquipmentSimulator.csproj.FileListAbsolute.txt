@@ -16,3 +16,4 @@ C:\Users\USER\source\repos\semiconductor\semi.EquipmentSimulator\obj\Debug\net10
 C:\Users\USER\source\repos\semiconductor\semi.EquipmentSimulator\obj\Debug\net10.0\semi.EquipmentSimulator.pdb
 C:\Users\USER\source\repos\semiconductor\semi.EquipmentSimulator\obj\Debug\net10.0\semi.EquipmentSimulator.genruntimeconfig.cache
 C:\Users\USER\source\repos\semiconductor\semi.EquipmentSimulator\obj\Debug\net10.0\ref\semi.EquipmentSimulator.dll
+C:\Users\USER\source\repos\semiconductor\semi.EquipmentSimulator\obj\Debug\net10.0\semi.EquipmentSimulator.sourcelink.json

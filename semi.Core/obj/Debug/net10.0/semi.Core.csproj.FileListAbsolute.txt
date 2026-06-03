@@ -9,3 +9,4 @@ C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.d
 C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\refint\semi.Core.dll
 C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.pdb
 C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\ref\semi.Core.dll
+C:\Users\USER\source\repos\semiconductor\semi.Core\obj\Debug\net10.0\semi.Core.sourcelink.json
